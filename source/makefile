@@ -10,4 +10,4 @@ main.o: main.cpp knapsacks.h
 	g++ -c -std=c++11 main.cpp knapsacks.h
 
 clean:
-	rm knapsacks.h.ghc *.o main
+	rm *.o main
