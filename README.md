@@ -5,5 +5,5 @@ The goal of this research is to study the time complexities of solutions to the 
 ## Implementation
 The solution to the problem that this repository includes in the dynamic solution
 
-##Time Complexity
+## Time Complexity
 O(nW) where n is the number of items and W is the capacity of knapsack
