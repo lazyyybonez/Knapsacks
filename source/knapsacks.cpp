@@ -6,45 +6,44 @@
 #include <vector>
 #include <algorithm>
 
-std::vector<int> Knapsacks::DynamicKnapsack(int packageWeight[], int packageVotes[],
+std::vector<int> Knapsacks::DynamicKnapsack(int packageWeight[], int packagevalue[],
   int numPackages, int maxWeight)
 {
   // declare variables
   std::vector<int> best;
   std::vector<int> temp;
-  std::vector<PackageSet> pset;
+  std::vector<Item> pset;
   int** T = new int*[numPackages+1];
   int deleted = 0;
   int currWeight = maxWeight;
   bool dontCheck = false;
-
-  for(int x=0; x <= numPackages; ++x)
+  for(int i=0; i <= numPackages; i++)
   {
-    T[x] = new int[maxWeight+1];
-    PackageSet access;
+    T[i] = new int[maxWeight+1];
+    Item access;
     dontCheck = false;
     temp.clear();
 
     for(int y=0; y <= maxWeight; ++y)
     {
-      if(x==0 || y==0)
+      if(i==0 || y==0)
       {
-        T[x][y] = 0;
+        T[i][y] = 0;
       }
-      else if(packageWeight[x-1] <= y)
+      else if(packageWeight[i-1] <= y)
       {
-        T[x][y] = std::max(T[x-1][y-packageWeight[x-1]]
-            + packageVotes[x-1], T[x-1][y]);
-        if(T[x][y] == (T[x-1][y-packageWeight[x-1]]
-            + packageVotes[x-1]))
+        T[i][y] = std::max(T[i-1][y-packageWeight[i-1]]
+            + packagevalue[i-1], T[i-1][y]);
+        if(T[i][y] == (T[i-1][y-packageWeight[i-1]]
+            + packagevalue[i-1]))
         {
           // if we find a valid packet, place it into
           // the temp vector for storage
           if(!dontCheck &&
             !(std::find(temp.begin(), temp.end(),
-            packageWeight[x-1]) != temp.end()))
+            packageWeight[i-1]) != temp.end()))
           {
-            temp.push_back(packageWeight[x-1]);
+            temp.push_back(packageWeight[i-1]);
           }
           // find all of the weight instances where
           // this packet is "valid"
@@ -54,22 +53,22 @@ std::vector<int> Knapsacks::DynamicKnapsack(int packageWeight[], int packageVote
       }
       else
       {
-        T[x][y] = T[x-1][y];
+        T[i][y] = T[i-1][y];
       }
     }// end for loop
 
     // gather info about the packet we just found
     if((std::find(temp.begin(), temp.end(),
-        packageWeight[x-1]) != temp.end()))
+        packageWeight[i-1]) != temp.end()))
     {
-      access.index = x-1;
-      access.weight = packageWeight[x-1];
+      access.index = i-1;
+      access.weight = packageWeight[i-1];
       pset.push_back(access);
     }
 
     // memory management, used to delete
     // array indexes thats no longer in use
-    if(x > 1)
+    if(i > 1)
     {
       delete[] T[deleted++];
     }
@@ -80,12 +79,12 @@ std::vector<int> Knapsacks::DynamicKnapsack(int packageWeight[], int packageVote
   // obtain the best possible knapsack solutuion, and save
   // their array indexes into a vector, starting from the end
   // NOTE: this places the knapsack solution in opposite (reverse) order
-  for(int x = pset.size()-1; x >= 0; --x)
+  for(int i = pset.size()-1; i >= 0; i--)
   {
-    if(IsSolution(pset, x, currWeight))
+    if(IsSolution(pset, i, currWeight))
     {
-      best.push_back(pset.at(x).index);
-      currWeight -= pset.at(x).weight;
+      best.push_back(pset.at(i).index);
+      currWeight -= pset.at(i).weight;
     }
     pset.pop_back();
   }
@@ -96,17 +95,17 @@ std::vector<int> Knapsacks::DynamicKnapsack(int packageWeight[], int packageVote
   return best;
 }// end of DynamicKnapsack
 
-bool Knapsacks::IsSolution(std::vector<PackageSet>& pset, int index, int currWeight)
+bool Knapsacks::IsSolution(std::vector<Item>& pset, int index, int currWeight)
 {
   return std::find(pset.at(index).appearances.begin(),
     pset.at(index).appearances.end(), currWeight) !=
     pset.at(index).appearances.end();
 }// end of IsSolution
 
-std::vector<PackageStats> Knapsacks::ReturnBest(std::vector<PackageStats>& packages,
+std::vector<ItemStats> Knapsacks::ReturnBest(std::vector<ItemStats>& packages,
   std::vector<int>& knapResult)
 {
-  std::vector<PackageStats> best;
+  std::vector<ItemStats> best;
   for(unsigned x=0; x < knapResult.size(); ++x)
   {
     best.push_back(packages.at(knapResult.at(x)));
@@ -114,11 +113,11 @@ std::vector<PackageStats> Knapsacks::ReturnBest(std::vector<PackageStats>& packa
   return best;
 }// end of ReturnBest
 
-void Knapsacks::Display(std::vector<PackageStats>& packages, unsigned size)
+void Knapsacks::Display(std::vector<ItemStats>& packages, unsigned size)
 {
 for(unsigned x=0; x < size && x < packages.size(); ++x)
 {
 std::cout<<packages.at(x).name<<" "
-     <<packages.at(x).size<<" "<<packages.at(x).votes<<std::endl;
+     <<packages.at(x).size<<" "<<packages.at(x).value<<std::endl;
 }
 }// end of Display
