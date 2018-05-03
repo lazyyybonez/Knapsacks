@@ -121,3 +121,49 @@ std::cout<<packages.at(x).name<<" "
      <<packages.at(x).size<<" "<<packages.at(x).value<<std::endl;
 }
 }// end of Display
+
+int Knapsacks::TotalSize(std::vector<ItemStats>& packages)
+{
+  std::vector<int> s = std::vector<int>();
+  int total = 0;
+
+  // if theres 2 parameters
+  if(!s.empty())
+  {
+    for(unsigned x=0; x < s.size(); ++x)
+    {
+      total += packages.at(s.at(x)).size;
+    }
+  }
+  else // if theres only 1
+  {
+    for(unsigned x=0; x < packages.size(); ++x)
+    {
+      total += packages.at(x).size;
+    }
+  }
+  return total;
+}// end of TotalSize
+
+int Knapsacks::Totalvalue(std::vector<ItemStats>& packages)
+{
+  std::vector<int> s = std::vector<int>();
+  int total = 0;
+
+  // if theres 2 parameters
+  if(!s.empty())
+  {
+    for(unsigned x=0; x < s.size(); ++x)
+    {
+      total += packages.at(s.at(x)).value;
+    }
+  }
+  else // if theres only 1
+  {
+    for(unsigned x=0; x < packages.size(); ++x)
+    {
+      total += packages.at(x).value;
+    }
+  }
+  return total;
+}// end of Totalvalue

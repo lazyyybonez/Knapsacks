@@ -36,49 +36,8 @@ class Knapsacks{
     bool IsSolution(std::vector<Item>&, int, int); //checks solution
     std::vector<ItemStats> ReturnBest(std::vector<ItemStats>&, std::vector<int>&); //returns solution
     void Display(std::vector<ItemStats>& packages, unsigned size);
-    int TotalSize(std::vector<ItemStats>& packages, std::vector<int> s = std::vector<int>())
-{
-  int total = 0;
-
-  // if theres 2 parameters
-  if(!s.empty())
-  {
-    for(unsigned x=0; x < s.size(); ++x)
-    {
-      total += packages.at(s.at(x)).size;
-    }
-  }
-  else // if theres only 1
-  {
-    for(unsigned x=0; x < packages.size(); ++x)
-    {
-      total += packages.at(x).size;
-    }
-  }
-  return total;
-}// end of TotalSize
-
-int Totalvalue(std::vector<ItemStats>& packages, std::vector<int> s = std::vector<int>())
-{
-  int total = 0;
-
-  // if theres 2 parameters
-  if(!s.empty())
-  {
-    for(unsigned x=0; x < s.size(); ++x)
-    {
-      total += packages.at(s.at(x)).value;
-    }
-  }
-  else // if theres only 1
-  {
-    for(unsigned x=0; x < packages.size(); ++x)
-    {
-      total += packages.at(x).value;
-    }
-  }
-  return total;
-}// end of Totalvalue
+    int TotalSize(std::vector<ItemStats>&);
+    int Totalvalue(std::vector<ItemStats>&);
 };
 
 #endif
