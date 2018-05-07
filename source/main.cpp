@@ -1,5 +1,6 @@
 //Lela Bones
 //Cosc 320 Project 3
+//main.cpp
 //This file is the driver for the knapsack class
 
 #include <iostream>

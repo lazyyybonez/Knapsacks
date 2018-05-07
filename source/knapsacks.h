@@ -1,5 +1,6 @@
 //Lela Bones
 //Cosc 320 Project 3
+//knapsacks.h
 //This file will hold the prototypes for the knapsack class
 
 #ifndef KNAPSACKS_H
